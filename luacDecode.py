@@ -438,7 +438,13 @@ def decode(bytes):
             codes_line.append('{}\t[-]:{}\t R{},{}\t; R{} := closure(Function #{})'.format(i, op_code.name[3:], a, bc, a, bc))
 
         elif op_code == opCode.OP_VARARG:
-            assert False, "error op_vararg!"
+            if b > 2:
+                temp = 'R{} to R{} := ...'.format(a, a + b - 2)
+            elif b == 2:
+                temp = 'R{} := ...'.format(a)
+            else:
+                temp = 'R{} to top := ...'.format(a)
+            codes_line.append('{}\t[-]:{}\t R{},{}\t; {}'.format(i, op_code.name[3:], a, b, temp))
 
     str_code = ''
     for code_line in codes_line:
